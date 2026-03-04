@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { CharState } from "@/lib/typing";
 
 interface CharDisplayProps {
@@ -9,7 +10,7 @@ interface CharDisplayProps {
   isTypingActive?: boolean;
 }
 
-export function CharDisplay({ char, state, isCursor, isTypingActive }: CharDisplayProps) {
+export const CharDisplay = memo(function CharDisplay({ char, state, isCursor, isTypingActive }: CharDisplayProps) {
   const colorClass =
     state === "correct"
       ? "text-white"
@@ -34,4 +35,4 @@ export function CharDisplay({ char, state, isCursor, isTypingActive }: CharDispl
       {char === " " ? "\u00A0" : char}
     </span>
   );
-}
+});

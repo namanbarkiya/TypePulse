@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CharDisplay } from "./CharDisplay";
 import { StatsBar } from "./StatsBar";
@@ -129,7 +129,8 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
           }}
         >
           {/* Render word-by-word so CSS never splits a word across lines */}
-          {buildWordTokens(article.body).map(({ word, start }, wi) =>
+          {/* eslint-disable-next-line react-hooks/exhaustive-deps */}
+          {useMemo(() => buildWordTokens(article.body), [article.id]).map(({ word, start }) =>
             word === " " ? (
               <CharDisplay
                 key={start}
@@ -139,7 +140,7 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
                 isTypingActive={isTypingActive}
               />
             ) : (
-              <span key={wi} className="inline-block">
+              <span key={start} className="inline-block">
                 {word.split("").map((char, ci) => (
                   <CharDisplay
                     key={start + ci}
