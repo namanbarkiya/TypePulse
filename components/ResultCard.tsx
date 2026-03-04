@@ -44,13 +44,13 @@ export function ResultCard({ wpm, accuracy, category, articleTitle }: ResultCard
       {/* Actions */}
       <div className="flex gap-3 flex-wrap justify-center">
         <Link
-          href={`/play/${category}`}
+          href={`/?cat=${category}`}
           className="font-mono text-sm border border-white/20 rounded px-4 py-2 hover:border-white/50 transition-colors"
         >
           Try another →
         </Link>
         <Link
-          href="/"
+          href="/?cat=ai-news"
           className="font-mono text-sm border border-white/20 rounded px-4 py-2 hover:border-white/50 transition-colors"
         >
           Change category

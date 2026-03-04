@@ -1,18 +1,10 @@
-import { notFound } from "next/navigation";
-import { PlayClient } from "./PlayClient";
-import { getCategory } from "@/lib/categories";
-import { fetchArticles } from "@/lib/news";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: Promise<{ category: string }>;
 }
 
 export default async function PlayPage({ params }: Props) {
-  const { category: categorySlug } = await params;
-  const category = getCategory(categorySlug);
-  if (!category) notFound();
-
-  const articles = await fetchArticles(category, 5);
-
-  return <PlayClient articles={articles} category={categorySlug} />;
+  const { category } = await params;
+  redirect(`/?cat=${category}`);
 }

@@ -1,42 +1,30 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { PlayClient } from "@/components/PlayClient";
+import { getCategory } from "@/lib/categories";
+import { fetchArticles } from "@/lib/news";
 
-export default function HomePage() {
+interface Props {
+  searchParams: Promise<{ cat?: string }>;
+}
+
+export default async function HomePage({ searchParams }: Props) {
+  const { cat } = await searchParams;
+  const slug = cat ?? "ai-news";
+  const category = getCategory(slug);
+
+  if (!category) redirect("/?cat=ai-news");
+
+  const articles = await fetchArticles(category, 5);
+
   return (
-    <main className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center gap-10 px-4">
-      <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-mono text-muted-foreground tracking-widest">
-          TypePulse
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Type the news. Learn while you type.
-        </p>
-      </div>
-
-      <div className="flex gap-4">
-        <Link
-          href="/play/ai-news"
-          className="group flex flex-col items-center gap-3 border border-border rounded-lg px-8 py-6 hover:border-white/30 transition-colors"
-        >
-          <span className="text-2xl">🤖</span>
-          <span className="text-sm font-mono text-foreground">AI News</span>
-          <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-            → Start
-          </span>
-        </Link>
-
-        <Link
-          href="/play/current-affairs"
-          className="group flex flex-col items-center gap-3 border border-border rounded-lg px-8 py-6 hover:border-white/30 transition-colors"
-        >
-          <span className="text-2xl">🌍</span>
-          <span className="text-sm font-mono text-foreground">
-            Current Affairs
-          </span>
-          <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-            → Start
-          </span>
-        </Link>
-      </div>
-    </main>
+    <div className="min-h-screen bg-[#0a0a0a] flex flex-col">
+      <Header currentCategory={slug} />
+      <main className="flex-1 flex items-center justify-center px-6 py-8">
+        <PlayClient articles={articles} category={slug} />
+      </main>
+      <Footer />
+    </div>
   );
 }
