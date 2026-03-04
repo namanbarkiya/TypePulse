@@ -10,6 +10,23 @@ import type { Article } from "@/lib/news";
 // Each line is exactly this tall. Must match lineHeight style on the text div.
 const LINE_HEIGHT_REM = 3.25;
 
+/** Split text into word tokens + space tokens, each with their start index. */
+function buildWordTokens(text: string): { word: string; start: number }[] {
+  const tokens: { word: string; start: number }[] = [];
+  let i = 0;
+  while (i < text.length) {
+    if (text[i] === " ") {
+      tokens.push({ word: " ", start: i });
+      i++;
+    } else {
+      const start = i;
+      while (i < text.length && text[i] !== " ") i++;
+      tokens.push({ word: text.slice(start, i), start });
+    }
+  }
+  return tokens;
+}
+
 interface TypingAreaProps {
   article: Article;
   category: string;
@@ -98,17 +115,30 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
             lineHeight: `${LINE_HEIGHT_REM}rem`,
             transform: `translateY(-${translateY}px)`,
             transition: "transform 0.12s ease",
-            wordBreak: "break-word",
           }}
         >
-          {article.body.split("").map((char, i) => (
-            <CharDisplay
-              key={i}
-              char={char}
-              state={charStates[i] ?? "pending"}
-              isCursor={i === typedCount}
-            />
-          ))}
+          {/* Render word-by-word so CSS never splits a word across lines */}
+          {buildWordTokens(article.body).map(({ word, start }, wi) =>
+            word === " " ? (
+              <CharDisplay
+                key={start}
+                char=" "
+                state={charStates[start] ?? "pending"}
+                isCursor={start === typedCount}
+              />
+            ) : (
+              <span key={wi} className="inline-block">
+                {word.split("").map((char, ci) => (
+                  <CharDisplay
+                    key={start + ci}
+                    char={char}
+                    state={charStates[start + ci] ?? "pending"}
+                    isCursor={start + ci === typedCount}
+                  />
+                ))}
+              </span>
+            )
+          )}
         </div>
       </div>
 

@@ -119,6 +119,28 @@ export function useTypingEngine(targetText: string): TypingEngineState {
         setIsStarted(true);
       }
 
+      // Space pressed mid-word → skip rest of word (mark incorrect), jump to next word
+      if (e.key === " " && targetText[idx] !== " ") {
+        const newStates = [...charStatesRef.current];
+        // Mark remaining chars of this word as incorrect
+        let i = idx;
+        while (i < targetText.length && targetText[i] !== " ") {
+          if (newStates[i] === "pending") {
+            newStates[i] = "incorrect";
+            totalTypedRef.current += 1;
+          }
+          i++;
+        }
+        // Jump past the space (to start of next word)
+        const nextWordStart = i < targetText.length ? i + 1 : i;
+        charStatesRef.current = newStates;
+        typedCountRef.current = nextWordStart;
+        setCharStates([...newStates]);
+        setTypedCount(nextWordStart);
+        setAccuracy(calcAccuracy(correctCharsRef.current, totalTypedRef.current));
+        return;
+      }
+
       const isCorrect = e.key === targetText[idx];
       const newStates = [...charStatesRef.current];
       newStates[idx] = isCorrect ? "correct" : "incorrect";
