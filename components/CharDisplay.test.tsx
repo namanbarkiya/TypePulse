@@ -10,7 +10,7 @@ describe("CharDisplay", () => {
 
   it("applies gray class for pending state", () => {
     const { container } = render(<CharDisplay char="a" state="pending" isCursor={false} />);
-    expect(container.firstElementChild?.className).toContain("text-gray-600");
+    expect(container.firstElementChild?.className).toContain("text-gray-500");
   });
 
   it("applies white class for correct state", () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CharDisplay } from "./CharDisplay";
 import { StatsBar } from "./StatsBar";
@@ -40,6 +40,17 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
 
   const textRef = useRef<HTMLDivElement>(null);
   const [translateY, setTranslateY] = useState(0);
+  const [isTypingActive, setIsTypingActive] = useState(false);
+  const activeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Mark cursor as active on each keystroke, clear after 500ms idle
+  useEffect(() => {
+    if (!isStarted) return;
+    setIsTypingActive(true);
+    if (activeTimerRef.current) clearTimeout(activeTimerRef.current);
+    activeTimerRef.current = setTimeout(() => setIsTypingActive(false), 500);
+    return () => { if (activeTimerRef.current) clearTimeout(activeTimerRef.current); };
+  }, [typedCount, isStarted]);
 
   // Recompute scroll offset whenever typedCount changes
   useEffect(() => {
@@ -114,7 +125,7 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
           style={{
             lineHeight: `${LINE_HEIGHT_REM}rem`,
             transform: `translateY(-${translateY}px)`,
-            transition: "transform 0.12s ease",
+            transition: "transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           {/* Render word-by-word so CSS never splits a word across lines */}
@@ -125,6 +136,7 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
                 char=" "
                 state={charStates[start] ?? "pending"}
                 isCursor={start === typedCount}
+                isTypingActive={isTypingActive}
               />
             ) : (
               <span key={wi} className="inline-block">
@@ -134,6 +146,7 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
                     char={char}
                     state={charStates[start + ci] ?? "pending"}
                     isCursor={start + ci === typedCount}
+                    isTypingActive={isTypingActive}
                   />
                 ))}
               </span>
