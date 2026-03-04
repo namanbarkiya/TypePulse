@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TypingArea } from "@/components/TypingArea";
 import type { Article } from "@/lib/news";
 
@@ -18,14 +18,44 @@ const FALLBACK: Article = {
   publishedAt: new Date().toISOString(),
 };
 
-export function PlayClient({ articles, category }: Props) {
-  const [index, setIndex] = useState(0);
+async function loadArticles(category: string): Promise<Article[]> {
+  const res = await fetch(`/api/news?category=${category}&t=${Date.now()}`);
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.articles ?? [];
+}
 
-  const articleList = articles.length > 0 ? articles : [FALLBACK];
-  const current = articleList[index % articleList.length];
+export function PlayClient({ articles: initialArticles, category }: Props) {
+  const [articles, setArticles] = useState<Article[]>(
+    initialArticles.length > 0 ? initialArticles : [FALLBACK]
+  );
+  const [index, setIndex] = useState(0);
+  const prefetchedRef = useRef<Article[] | null>(null);
+  const prefetchingRef = useRef(false);
+
+  const current = articles[index % articles.length];
+  const isNearEnd = index >= articles.length - 2;
+
+  // Prefetch next batch when user is on the second-to-last article
+  useEffect(() => {
+    if (!isNearEnd || prefetchingRef.current || prefetchedRef.current) return;
+    prefetchingRef.current = true;
+    loadArticles(category).then((fresh) => {
+      if (fresh.length > 0) prefetchedRef.current = fresh;
+      prefetchingRef.current = false;
+    });
+  }, [isNearEnd, category]);
 
   function handleSkip() {
-    setIndex((i) => i + 1);
+    const next = index + 1;
+    // If we've exhausted current batch and have prefetched data, swap in
+    if (next >= articles.length && prefetchedRef.current) {
+      setArticles(prefetchedRef.current);
+      prefetchedRef.current = null;
+      setIndex(0);
+    } else {
+      setIndex(next);
+    }
   }
 
   return (

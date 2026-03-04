@@ -209,14 +209,14 @@ typepulse/
 **Duration**: 1 day
 
 **Deliverables**:
-- [ ] Loading skeleton on play screen — 3 shimmer lines while article fetches
-- [ ] Error state if news API fails — `"Couldn't load today's news"` + retry button
-- [ ] Harden `normaliseToTypingText` — fuzz test with 50 real articles, fix any remaining bad chars
-- [ ] `Tab` pre-fetches next article while user is typing current one (no wait on skip)
-- [ ] Open Graph meta tags in `app/layout.tsx` — title, description, `og:image`
-- [ ] `app/robots.ts` and `app/sitemap.ts` via Next.js Metadata API
+- [x] Loading skeleton on play screen — 3 shimmer lines while article fetches
+- [x] Error state if news API fails — `"Couldn't load today's news"` + retry button
+- [x] Harden `normaliseToTypingText` — added bullet/URL/pipe/numeric entity stripping, fixed regex order
+- [x] `Tab` pre-fetches next article while user is typing current one (no wait on skip)
+- [x] Open Graph meta tags in `app/layout.tsx` — title, description, `og:image`
+- [x] `app/robots.ts` and `app/sitemap.ts` via Next.js Metadata API
 - [ ] Lighthouse score ≥ 90 on all four metrics
-- [ ] Keyboard shortcut legend at bottom of play screen: `Esc` reset · `Tab` skip
+- [x] Keyboard shortcut legend at bottom of play screen: `Esc` reset · `Tab` skip
 
 **Key files**:
 - `app/layout.tsx` — OG tags

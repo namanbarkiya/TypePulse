@@ -24,19 +24,29 @@ export function normaliseToTypingText(raw: string): string {
     .replace(/[\u201C\u201D]/g, '"')
     // ellipsis character → three dots
     .replace(/\u2026/g, "...")
-    // HTML entities (basic)
+    // bullet / middle dot → hyphen
+    .replace(/[\u2022\u00B7\u2027]/g, "-")
+    // multiplication sign → x
+    .replace(/\u00D7/g, "x")
+    // HTML entities (basic + numeric)
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&nbsp;/g, " ")
+    .replace(/&#\d+;/g, "")
+    .replace(/&[a-zA-Z]+;/g, "")
     // NewsAPI truncation artifact
     .replace(/\[\+\d+ chars\]/g, "")
-    // Parenthetical URLs
-    .replace(/\(https?:\/\/[^\)]+\)/g, "")
+    // Parenthetical URLs — must run before bare URL strip
+    .replace(/\(https?:\/\/[^)]+\)/g, "")
+    // Bare URLs in text
+    .replace(/https?:\/\/\S+/g, "")
     // Strip remaining non-ASCII (keep standard printable ASCII 32–126)
     .replace(/[^\x20-\x7E]/g, "")
+    // Strip lone pipe / bracket artifacts
+    .replace(/\s*\|\s*/g, " - ")
     // Collapse multiple spaces / trim
     .replace(/\s+/g, " ")
     .trim();
