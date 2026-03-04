@@ -5,7 +5,7 @@ export function Footer() {
         Learn while you type — absorb what matters, not just rack up WPM.
       </p>
       <p className="font-mono text-xs text-muted-foreground/30 hidden sm:block">
-        TypePulse
+        LearnKeys
       </p>
     </footer>
   );

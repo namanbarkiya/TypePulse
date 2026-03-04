@@ -13,7 +13,7 @@ const FALLBACK: Article = {
   id: "fallback",
   title: "No articles available",
   body: "The quick brown fox jumps over the lazy dog. Add your API keys to load real news.",
-  source: "TypePulse",
+  source: "LearnKeys",
   url: "",
   publishedAt: new Date().toISOString(),
 };

@@ -1,10 +1,10 @@
-# TypePulse
+# LearnKeys
 
 > Type the news. Learn while you type.
 
 A Monkeytype-inspired typing practice app where you type real AI news headlines and current affairs — not random words. Built with Next.js, no login, no database.
 
-[![GitHub stars](https://img.shields.io/github/stars/namanbarkiya/TypePulse?style=flat&color=yellow)](https://github.com/namanbarkiya/TypePulse)
+[![GitHub stars](https://img.shields.io/github/stars/namanbarkiya/LearnKeys?style=flat&color=yellow)](https://github.com/namanbarkiya/LearnKeys)
 
 ---
 
@@ -33,7 +33,7 @@ Open `http://localhost:3000` — you land directly on the typing screen.
 
 ## API keys
 
-TypePulse needs at least one news API key to load real articles. Without keys it shows a fallback article.
+LearnKeys needs at least one news API key to load real articles. Without keys it shows a fallback article.
 
 | Variable | Where to get it | Free tier |
 |---|---|---|
@@ -123,8 +123,8 @@ lib/
 PRs welcome. Open an issue first for large changes.
 
 ```bash
-git clone https://github.com/namanbarkiya/TypePulse
-cd TypePulse
+git clone https://github.com/namanbarkiya/LearnKeys
+cd LearnKeys
 npm install
 cp env-example.env .env.local
 npm run dev

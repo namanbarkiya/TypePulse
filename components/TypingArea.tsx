@@ -171,7 +171,7 @@ export function TypingArea({ article, category, onSkip }: TypingAreaProps) {
       </div>
 
       <p className="text-xs text-muted-foreground text-center md:hidden border border-yellow-400/20 rounded px-3 py-2 bg-yellow-400/5">
-        TypePulse works best on a physical keyboard
+        LearnKeys works best on a physical keyboard
       </p>
     </div>
   );

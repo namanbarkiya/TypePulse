@@ -26,13 +26,13 @@ export function Header({ currentCategory, stars }: HeaderProps) {
         href="/"
         className="font-mono text-sm text-muted-foreground tracking-widest hover:text-white transition-colors"
       >
-        TypePulse
+        LearnKeys
       </Link>
 
       <div className="flex items-center gap-3">
         {/* GitHub link */}
         <a
-          href="https://github.com/namanbarkiya/TypePulse"
+          href="https://github.com/namanbarkiya/LearnKeys"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-white transition-colors border border-white/10 hover:border-white/20 rounded px-2.5 py-1.5"

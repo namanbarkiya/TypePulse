@@ -12,23 +12,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TypePulse — Type the news. Learn while you type.",
+  title: "LearnKeys — Type the news. Learn while you type.",
   description:
     "Improve your typing speed by typing real AI news and current affairs headlines. Monkeytype-inspired, no login required.",
   keywords: ["typing practice", "typing speed", "WPM", "AI news", "current affairs", "monkeytype"],
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://typepulse.app"
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://learnkeys.vercel.app"
   ),
   openGraph: {
     type: "website",
-    title: "TypePulse — Type the news. Learn while you type.",
+    title: "LearnKeys — Type the news. Learn while you type.",
     description:
       "Improve your typing speed by typing real AI news and current affairs headlines.",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "TypePulse — Type the news. Learn while you type.",
+    title: "LearnKeys — Type the news. Learn while you type.",
     description:
       "Improve your typing speed by typing real AI news and current affairs headlines.",
     images: ["/og-image.png"],

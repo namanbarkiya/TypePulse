@@ -11,7 +11,7 @@ interface Props {
 
 async function getGitHubStars(): Promise<number> {
   try {
-    const res = await fetch("https://api.github.com/repos/namanbarkiya/TypePulse", {
+    const res = await fetch("https://api.github.com/repos/namanbarkiya/LearnKeys", {
       next: { revalidate: 3600 },
     });
     if (!res.ok) return 0;
